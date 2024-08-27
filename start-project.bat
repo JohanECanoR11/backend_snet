@@ -1,0 +1,1 @@
+start cmd.exe /k "cd C:\Bootcamp_talento_tech\FINAL_PROJECT_SN\backend_snet && npm run start:watch"
