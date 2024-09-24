@@ -167,3 +167,47 @@ export const profile = async (req, res) => {
     });
   }
 }
+
+// Método para listar usuarios con la paginación de MongoDB
+export const listUsers = async (req, res) => {
+  try {
+    // Gestionar páginas
+    // Controlar la página actual
+    let page = req.params.page ? parseInt(req.params.page, 10) : 1;
+    // Configurar los items por página
+    let itemsPerPage = req.query.limit ? parseInt(req.query.limit, 10) : 3;
+
+    // Realizar consulta paginada
+    const options = {
+      page: page,
+      limit: itemsPerPage,
+      select: '-password -email -role -__v'
+    };
+    const users = await User.paginate({}, options);
+
+    // Si no hay usuarios disponibles
+    if (!users || users.docs.length === 0) {
+      return res.status(404).send({
+        status: "error",
+        message: "No existen usuarios disponibles"
+      });
+    }
+
+    // Devolver los usuarios paginados
+    return res.status(200).send({
+      status: "success",
+      users: users.docs,
+      totalDocs: users.totalDocs,
+      totalPages: users.totalPages,
+      page: users.page,
+      pagingCounter: users.pagingCounter
+    });
+
+  } catch (error) {
+    console.log("Error al listar los usuarios: ", error)
+    return res.status(500).send({
+      status: "error",
+      message: "Error al listar los usuarios"
+    });
+  }
+}
