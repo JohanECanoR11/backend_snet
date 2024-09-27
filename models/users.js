@@ -20,14 +20,14 @@ const UserSchema = Schema ({
     required: true,
     unique: true
   },
-  bio: String,  
+  bio: String,
   password: {
     type: String,
-    required: true,
+    required: true
   },
   role: {
     type: String,
-    default: "role_user",
+    default: "role_user"
   },
   image: {
     type: String,
@@ -45,4 +45,4 @@ UserSchema.plugin(mongoosePaginate);
 export default model("User", UserSchema, "users");
 // "User" nombre del modelo
 // UserSchema nombre del esquema
-// "users" nombre de la colección en MongoDB
+// "users" nombre de la colección en MondoDB
